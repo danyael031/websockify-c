@@ -509,7 +509,7 @@ int parse_handshake(ws_ctx_t *ws_ctx, char *handshake) {
     headers->key2[0] = '\0';
     headers->key3[0] = '\0';
     
-    if ((strlen(handshake) < 92) || (bcmp(handshake, "GET ", 4) != 0)) {
+    if ((strlen(handshake) < 92) || (memcmp(handshake, "GET ", 4) != 0)) {
         return 0;
     }
     start = handshake+4;
@@ -671,8 +671,8 @@ ws_ctx_t *do_handshake(int sock) {
     if (len == 0) {
         handler_msg("ignoring empty handshake\n");
         return NULL;
-    } else if ((bcmp(handshake, "\x16", 1) == 0) ||
-               (bcmp(handshake, "\x80", 1) == 0)) {
+    } else if ((memcmp(handshake, "\x16", 1) == 0) ||
+               (memcmp(handshake, "\x80", 1) == 0)) {
         // SSL
         if (!settings.cert) {
             handler_msg("SSL connection but no cert specified\n");
@@ -807,7 +807,7 @@ void daemonize(int keepfd) {
     signal(SIGTERM, signal_handler);  // catch kill
 
     /* Close open files */
-    for (i=getdtablesize(); i>=0; --i) {
+    for (i=sysconf(_SC_OPEN_MAX); i>=0; --i) {
         if (i != keepfd) {
             close(i);
         } else if (settings.verbose) {
