@@ -1,6 +1,5 @@
 TARGETS=websockify-c
 PREFIX ?= /data/data/com.termux/files/usr
-CFLAGS += -fPIC
 
 all: $(TARGETS)
 
