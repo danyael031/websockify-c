@@ -5,7 +5,7 @@ CFLAGS += -fPIC
 all: $(TARGETS)
 
 websockify-c: websockify.o websocket.o
-	$(CC) $(LDFLAGS) $^ -lssl -lcrypto -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -lssl -lcrypto -o $@
 
 websocket.o: websocket.c websocket.h
 websockify.o: websockify.c websocket.h
